@@ -1,0 +1,4 @@
+select top 1 cast(round(LONG_W,4) as decimal(18, 4) )
+from station 
+where LAT_N>38.7780 
+order by LAT_N 
