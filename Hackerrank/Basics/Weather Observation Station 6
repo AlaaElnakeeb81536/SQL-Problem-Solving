@@ -1,0 +1,1 @@
+select distinct City from station where left(city,1) in ('a','i','o','u','e')
