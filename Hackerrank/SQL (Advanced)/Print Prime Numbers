@@ -1,0 +1,25 @@
+DECLARE @i INT =2;
+DECLARE @j INT ;
+DECLARE @flag INT ;
+DECLARE @res NVARCHAR(MAX) = '';
+WHILE @i<=1000
+   BEGIN
+SET @j=2
+SET @flag=0
+             WHILE @j<@i
+              BEGIN 
+                    if @i % @j=0
+                 BEGIN 
+                      set @flag=1
+                      BREAK
+                  END
+           SET @j = @j + 1;
+           END
+               if @flag= 0
+              BEGIN 
+               set @res = @res+ CAST(@i AS NVARCHAR) + '&'; 
+              End
+SET @i = @i + 1;
+
+END
+print LEFT(@res, LEN(@res) - 1);
