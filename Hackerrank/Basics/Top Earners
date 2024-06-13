@@ -1,0 +1,4 @@
+select months*salary as Max_earn , count(*) 
+from Employee 
+group by Max_earn  
+order by Max_earn desc limit 1
