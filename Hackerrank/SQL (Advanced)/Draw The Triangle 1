@@ -1,0 +1,7 @@
+DECLARE @Counter INT 
+SET @Counter=20
+WHILE ( @Counter >0)
+BEGIN
+    PRINT  REPLICATE('* ', @counter) 
+    SET @Counter  = @Counter  - 1
+END
