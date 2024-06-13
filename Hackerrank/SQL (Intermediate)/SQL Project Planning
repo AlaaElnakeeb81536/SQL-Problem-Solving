@@ -1,0 +1,21 @@
+with A as
+(select  start_Date
+ from Projects where start_Date not in
+ (
+     select End_Date 
+     from Projects
+ ) ) ,B as(
+     select  End_Date
+  from Projects where End_Date 
+     not in (
+         select start_Date 
+         from Projects
+     )) 
+ 
+
+select a.start_Date,min(b.End_Date)
+from A a inner join  B b
+where a.start_date< b.end_date 
+GROUP BY a.start_Date
+ORDER BY MIN(b.End_Date) - a.Start_Date ASC, A.Start_Date;
+    
