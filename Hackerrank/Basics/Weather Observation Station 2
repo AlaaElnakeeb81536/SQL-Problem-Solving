@@ -1,0 +1,2 @@
+select ROUND(sum( LAT_N),2) AS lat ,ROUND(sum(LONG_W) ,2)AS lon 
+from STATION 
