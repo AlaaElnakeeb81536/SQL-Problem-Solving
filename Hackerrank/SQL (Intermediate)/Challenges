@@ -1,0 +1,22 @@
+with challenge as
+(
+ select h.hacker_id, name ,count(challenge_id)  as cnt
+from Hackers h join Challenges c
+on h.hacker_id=c.hacker_id
+group by h.hacker_id, name
+),
+max as
+( 
+    select max(cnt) as max_cnt from 
+    challenge 
+),
+freq as(
+select cnt,count(*) as freq
+    from challenge 
+    group by cnt
+)
+
+SELECT hacker_id, name, c.cnt
+FROM challenge c join freq  f on c.cnt=f.cnt
+where f.freq=1 or c.cnt >= (SELECT max_cnt FROM max)
+ORDER BY c.cnt DESC, hacker_id;
