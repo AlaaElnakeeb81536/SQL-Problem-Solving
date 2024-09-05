@@ -1,0 +1,4 @@
+select id ,case when row_number() over(order by id) %2=1
+then COALESCE(lead(student) over (order by id),student)
+else lag(student) over (order by id) end as student
+from Seat
