@@ -1,0 +1,12 @@
+/* Write your T-SQL query statement below */
+with cte as(
+select d.name as Department , e.name as Employee ,dense_rank() 
+over(partition by d.name order by salary desc)as rankk ,salary
+ from Employee e join Department d on e.departmentId=d.id
+)
+select  Department,Employee,salary  from cte 
+where rankk<=3
+order by Employee
+
+
+
