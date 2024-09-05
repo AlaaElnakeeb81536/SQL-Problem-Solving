@@ -1,0 +1,17 @@
+/* Write your T-SQL query statement below */
+with cte 
+as (
+select *,
+rank() over(partition by player_id order by event_date) ranked ,
+lag(event_date) over(partition by player_id order by event_date) Previous
+from Activity
+)
+
+ select round(
+    cast( count(player_id) as float)
+    / (select count(distinct player_id) from Activity),2)  as fraction
+    
+  from cte
+   where ranked =2 and player_id in (
+ select player_id from Activity group by player_id having count(player_id)>1
+ )and datediff(day,Previous,event_date)=1
