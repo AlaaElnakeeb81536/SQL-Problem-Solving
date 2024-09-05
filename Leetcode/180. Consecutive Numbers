@@ -1,0 +1,20 @@
+/* Write your T-SQL query statement below */
+WITH cte AS (
+    SELECT 
+        id,
+        num,
+        LAG(id) OVER (ORDER BY id) AS prev_id,
+        LEAD(id) OVER (ORDER BY id) AS next_id,
+        LAG(num) OVER (ORDER BY id) AS previous,
+        LEAD(num) OVER (ORDER BY id) AS nextt
+    FROM 
+        Logs
+)
+SELECT DISTINCT
+    num AS ConsecutiveNums
+FROM 
+    cte
+WHERE 
+    num = previous 
+    AND num = nextt 
+    AND (id - prev_id) = (next_id - id) 
