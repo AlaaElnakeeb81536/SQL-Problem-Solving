@@ -1,24 +1,20 @@
-with cte as (
-   select 
-    m.title ,created_at, avg(rating) as avg_rating
-   from Movies m join MovieRating mr
-    on mr.movie_id=m.movie_id 
-    group by 
-   m.title ,created_at
+(
+  SELECT Users.name AS results
+  FROM MovieRating
+  INNER JOIN Users
+    USING (user_id)
+  GROUP BY user_id
+  ORDER BY COUNT(MovieRating.movie_id) DESC, Users.name
+  LIMIT 1
 )
-
-select name as results  from(
-select top 1 name from Users u 
-join MovieRating mr on  u.user_id=mr.user_id 
-group by mr.user_id , name
-order by count(rating) desc , name asc 
-) t
-
-union all
-
-select title as results 
-from (
-select top 1 title from cte 
-where month(created_at) =  2 AND YEAR(created_at) = 2020
-order by avg_rating desc , 
-title asc ) x
+UNION ALL
+(
+  SELECT Movies.title AS results
+  FROM MovieRating
+  INNER JOIN Movies
+    USING (movie_id)
+  WHERE DATE_FORMAT(created_at, '%Y-%m') = '2020-02'
+  GROUP BY movie_id
+  ORDER BY AVG(MovieRating.rating) DESC, Movies.title
+  LIMIT 1
+);
